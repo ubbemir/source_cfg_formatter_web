@@ -26,6 +26,7 @@
     "paths": {
       "@source_engine_cfg_parser/*": ["source_engine_cfg_parser"]
     },
+    "allowJs": true
   },
   "include": ["src"]
 }

@@ -15,21 +15,26 @@ async function init() {
   pyodide.globals.set("cfg_grammar", grammar_string)
   await pyodide.runPythonAsync('cfg_parser = Lark(cfg_grammar, parser="earley")')
 
-  pyodide.globals.set("input_content", "sv_cheats 1; mp_restartgame 1")
-  console.log(await pyodide.runPythonAsync("import formatters; formatters.prettify_cfg(cfg_parser.parse(input_content))"))
+  console.log("Pyodide Worker Initialized")
 }
 
+// Code snippet from https://pyodide.org/en/stable/usage/webworker.html
 self.onmessage = async (event) => {
-  const { id, python, context } = event.data;
+  const { id, cfg_input, prettify } = event.data;
   
+  if (!pyodide)
+    await init()
+
   try {
-    const result = await pyodide.runPythonAsync(python);
+    pyodide.globals.set("input_content", cfg_input)
+    let result
+    if (prettify)
+      result = await pyodide.runPythonAsync("import formatters; formatters.prettify_cfg(cfg_parser.parse(input_content))")
+    else
+      result = await pyodide.runPythonAsync("import formatters; formatters.minify_cfg(cfg_parser.parse(input_content))")
+
     self.postMessage({ result, id });
   } catch (error) {
     self.postMessage({ error: error.message, id });
   }
 };
-
-init()
-
-console.log(grammar_string)

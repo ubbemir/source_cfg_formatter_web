@@ -1,19 +1,28 @@
 import { useState, useEffect } from "react"
-import * as formatting from "./logic/formatting"
+import * as pyodide_worker_api from "./logic/pyodide_worker_api.mjs"
 
 function App() {
   const [pyResult, ] = useState("")
-  const [formatterStatus, setFormatterStatus] = useState("initializing")
+  const [pyReady, setpyReady] = useState(false)
   
   useEffect(() => {
-    formatting.init()
-    setFormatterStatus("done")
+    const load_formatters = async () => {
+      const { result, error } = await pyodide_worker_api.asyncRunCfgFormatting("sv_cheats 1", true)
+      if (result)
+        setpyReady(true)
+      else
+        console.log(error)
+    }
+
+    
+    load_formatters()
   }, [])
 
   return (
     <>
-      <p>{formatterStatus}</p>
-      <p>Result from Python: {pyResult}</p>
+      <p>{pyReady ? "Done" : "Initializing"}</p>
+      <p>Result from Python:</p>
+      <textarea value={pyResult} readOnly></textarea>
     </>
   )
 }
