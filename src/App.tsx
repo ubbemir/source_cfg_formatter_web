@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
-import { loadPyodide } from 'pyodide'
-import './App.css'
+import { useState, useEffect } from "react"
+import { loadPyodide } from "pyodide"
+import "./App.css"
 
 function App() {
-  const [pyResult, setpyResult] = useState('')
+  const [pyResult, setpyResult] = useState("")
   
   useEffect(() => {
     async function runPythonCode() {
