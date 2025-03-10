@@ -6,8 +6,17 @@ import formatters_python_string from "@source_engine_cfg_parser/src/formatters.p
 let pyodide;
 
 async function init() {
-  pyodide = await loadPyodide();
-  
+  pyodide = await loadPyodide({indexURL : "https://cdn.jsdelivr.net/pyodide/v0.27.3/full/"})
+
+  await pyodide.loadPackage("micropip")
+  await pyodide.runPythonAsync( "import micropip; await micropip.install('lark'); from lark import Lark" )
+
+  pyodide.FS.writeFile("/home/pyodide/formatters.py", formatters_python_string)
+  pyodide.globals.set("cfg_grammar", grammar_string)
+  await pyodide.runPythonAsync('cfg_parser = Lark(cfg_grammar, parser="earley")')
+
+  pyodide.globals.set("input_content", "sv_cheats 1; mp_restartgame 1")
+  console.log(await pyodide.runPythonAsync("import formatters; formatters.prettify_cfg(cfg_parser.parse(input_content))"))
 }
 
 self.onmessage = async (event) => {
