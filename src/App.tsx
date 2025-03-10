@@ -7,7 +7,7 @@ function App() {
   
   useEffect(() => {
     async function runPythonCode() {
-      let pyodide = await loadPyodide()
+      const pyodide = await loadPyodide()
       setpyResult(await pyodide.runPythonAsync("2**3"))
     }
 
