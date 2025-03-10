@@ -8,7 +8,7 @@ export default tseslint.config(
   { ignores: ["dist"] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ["**/*.{ts,tsx}"],
+    files: ["**/*.{ts,tsx,js,mjs}"],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
@@ -24,7 +24,11 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
       "semi": [1, "never"],
-      "quotes": [1, "double"]
+      "quotes": [1, "double"],
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
     },
   },
 )

@@ -3,7 +3,7 @@ import grammar_string from "@source_engine_cfg_parser/source_cfg.lark?raw"
 import formatters_python_string from "@source_engine_cfg_parser/src/formatters.py?raw"
 
 
-let pyodide;
+let pyodide
 
 async function init() {
   pyodide = await loadPyodide({indexURL : "https://cdn.jsdelivr.net/pyodide/v0.27.3/full/"})
@@ -13,14 +13,14 @@ async function init() {
 
   pyodide.FS.writeFile("/home/pyodide/formatters.py", formatters_python_string)
   pyodide.globals.set("cfg_grammar", grammar_string)
-  await pyodide.runPythonAsync('cfg_parser = Lark(cfg_grammar, parser="earley")')
+  await pyodide.runPythonAsync("cfg_parser = Lark(cfg_grammar, parser=\"earley\")")
 
   console.log("Pyodide Worker Initialized")
 }
 
 // Code snippet from https://pyodide.org/en/stable/usage/webworker.html
 self.onmessage = async (event) => {
-  const { id, cfg_input, prettify } = event.data;
+  const { id, cfg_input, prettify } = event.data
   
   if (!pyodide)
     await init()
@@ -33,8 +33,8 @@ self.onmessage = async (event) => {
     else
       result = await pyodide.runPythonAsync("import formatters; formatters.minify_cfg(cfg_parser.parse(input_content))")
 
-    self.postMessage({ result, id });
+    self.postMessage({ result, id })
   } catch (error) {
-    self.postMessage({ error: error.message, id });
+    self.postMessage({ error: error.message, id })
   }
-};
+}
