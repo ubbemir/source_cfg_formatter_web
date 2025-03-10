@@ -1,7 +1,7 @@
 import { defineConfig } from "vite"
 import react from "@vitejs/plugin-react-swc"
 import { viteStaticCopy } from "vite-plugin-static-copy"
-import { dirname, join } from "path"
+import { dirname, join, resolve } from "path"
 import { fileURLToPath } from "url"
 
 const PYODIDE_EXCLUDE = [
@@ -23,8 +23,15 @@ export function viteStaticCopyPyodide() {
   })
 }
 
-// https://vite.dev/config/
 export default defineConfig({
   optimizeDeps: { exclude: ["pyodide"] },
   plugins: [react(), viteStaticCopyPyodide()],
+  resolve: {
+    alias: {
+      "@source_engine_cfg_parser": resolve(__dirname, "./source_engine_cfg_parser"),
+    },
+  },
+  worker: {
+    format: "es"
+  }
 })

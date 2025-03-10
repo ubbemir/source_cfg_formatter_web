@@ -1,0 +1,3 @@
+[submodule "source_engine_cfg_parser"]
+	path = source_engine_cfg_parser
+	url = https://github.com/ubbemir/source_engine_cfg_parser.git
