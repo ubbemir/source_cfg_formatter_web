@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 import * as pyodide_worker_api from "./logic/pyodide_worker_api.mjs"
 
+import "./App.css"
+
 function App() {
   const [pyResult, setPyResult] = useState("")
   const [pyReady, setpyReady] = useState(false)
@@ -35,9 +37,8 @@ function App() {
   return (
     <>
       <p>{pyReady ? "Done" : "Initializing"}</p>
-      <p>Result from Python:</p>
-      <textarea value={inputCfg} onInput={inputChanged}></textarea>
-      <textarea value={pyResult} readOnly></textarea>
+      <textarea rows={15} cols={80} value={inputCfg} onInput={inputChanged} disabled={!pyReady} placeholder="Input CFG"></textarea>
+      <textarea rows={15} cols={80} value={pyResult} readOnly></textarea>
     </>
   )
 }
