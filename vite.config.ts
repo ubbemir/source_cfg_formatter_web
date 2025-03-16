@@ -33,5 +33,6 @@ export default defineConfig({
   },
   worker: {
     format: "es"
-  }
+  },
+  base: "/source_cfg_formatter_web/"
 })
