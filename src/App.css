@@ -1,4 +1,35 @@
+header {
+    margin-bottom: 30px;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.text-areas {
+    display: flex;
+}
+
+.text-areas > div {
+    display: flex;
+    margin: 10px;
+    justify-content: start;
+    flex-direction: column;
+}
+
+.spinner-container {
+    margin: 10px;
+    font-size: 1.5em;
+    display: flex;
+    justify-content: center;
+}
+
+.spinner-container span {
+    margin: 10px;
+}
+
 textarea {
     resize: none;
-    margin: 10px;
 }
