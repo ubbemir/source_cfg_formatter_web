@@ -1,4 +1,4 @@
-import PyodideWorker from "./pyodide_worker.mjs?worker"
+import PyodideWorker from "./worker/pyodide_worker.mjs?worker"
 
 // Code snippet from https://pyodide.org/en/stable/usage/webworker.html
 function getPromiseAndResolve() {
