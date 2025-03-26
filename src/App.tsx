@@ -14,10 +14,12 @@ function App() {
     const updateFormatting = async () => {
       const shouldPrettify = !shouldMinify // as prettifying is the opposite of minifying
       const { result, error } = await pyodide_worker_api.asyncRunCfgFormatting(inputCfg, shouldPrettify)
-      if (result)
+      if (result) {
         setPyResult(result)
-      else if (error)
-        console.log(error)
+      } else if (error) {
+        setPyResult("ERROR parsing, INVALID INPUT. Check console for more information.")
+        console.error(error)
+      }
     }
 
     if (pyReady) {
