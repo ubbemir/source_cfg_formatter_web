@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import * as pyodide_worker_api from "./logic/pyodide_worker_api.mjs"
+import * as pyodide_worker_api from "./logic/pyodide_worker_api"
 
 import "./App.css"
 import "./Spinner.css"
