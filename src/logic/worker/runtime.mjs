@@ -17,23 +17,23 @@ async function init() {
     return pyodide
 }
 
-const init_awaiters = []
-function await_init(initialized) {
+function await_init(subject, awaiters) {
     return new Promise((resolve) => {
-        if (initialized)
+        if (subject)
             resolve()
         else {
-            init_awaiters.push(resolve)
+            awaiters.push(resolve)
         }
     })
 }
 
 let runtime
+const init_awaiters = []
 init().then(res => {
     runtime = res
     init_awaiters.forEach((resolve) => resolve())
 })
 export async function getPythonRuntime() {
-    await await_init(runtime)
+    await await_init(runtime, init_awaiters)
     return runtime
 }
