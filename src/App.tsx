@@ -13,7 +13,6 @@ function App() {
   useEffect(() => {
     const updateFormatting = async () => {
       const shouldPrettify = !shouldMinify // as prettifying is the opposite of minifying
-      console.log("prettify", shouldMinify)
       const { result, error } = await pyodide_worker_api.asyncRunCfgFormatting(inputCfg, shouldPrettify)
       if (result)
         setPyResult(result)
