@@ -10,6 +10,7 @@ async function init() {
     await pyodide.runPythonAsync("import micropip; await micropip.install('lark'); from lark import Lark")
 
     pyodide.FS.writeFile("/home/pyodide/formatters.py", formatters_python_string)
+    await pyodide.runPythonAsync("import formatters")
     pyodide.globals.set("cfg_grammar", grammar_string)
     await pyodide.runPythonAsync("cfg_parser = Lark(cfg_grammar, parser=\"earley\")")
 
