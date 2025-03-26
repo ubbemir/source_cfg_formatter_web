@@ -44,7 +44,12 @@ function App() {
     <>
       <header>
         <h1>Source CFG Formatter</h1>
-        <span>by <a href="https://github.com/ubbemir">ubbemir</a></span>
+        <strong>by <a href="https://github.com/ubbemir">ubbemir</a></strong>
+
+        <p>
+          This project uses my Python <a href='https://github.com/ubbemir/source_engine_cfg_parser'>library</a> for parsing and formatting. 
+          If you encounter any incorrectly flagged parsing errors for valid input, please report them to that repository.
+        </p>
       </header>
       <div className="content">
         <Spinner className="spinner-container" ready={pyReady} />
