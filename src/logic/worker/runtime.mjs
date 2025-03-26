@@ -17,23 +17,31 @@ async function init() {
     return pyodide
 }
 
-function await_init(subject, awaiters) {
-    return new Promise((resolve) => {
-        if (subject)
-            resolve()
-        else {
-            awaiters.push(resolve)
-        }
-    })
-}
+const runtime = (() => {
+    let runtime
+    const init_awaiters = []
 
-let runtime
-const init_awaiters = []
-init().then(res => {
-    runtime = res
-    init_awaiters.forEach((resolve) => resolve())
-})
-export async function getPythonRuntime() {
-    await await_init(runtime, init_awaiters)
-    return runtime
-}
+    const await_init = (subject, awaiters) => {
+        return new Promise((resolve) => {
+            if (subject)
+                resolve()
+            else {
+                awaiters.push(resolve)
+            }
+        })
+    }
+
+    init().then(res => {
+        runtime = res
+        init_awaiters.forEach((resolve) => resolve())
+    })
+
+    return {
+        getRuntime: async () => {
+            await await_init(runtime, init_awaiters)
+            return runtime
+        }
+    }
+})()
+
+export default runtime

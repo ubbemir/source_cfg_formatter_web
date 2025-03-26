@@ -1,10 +1,10 @@
-import { getPythonRuntime } from "./runtime"
+import rt from "./runtime"
 
 
 self.onmessage = async (event) => {
     const { id, cfg_input, prettify } = event.data
 
-    const runtime = await getPythonRuntime()
+    const runtime = await rt.getRuntime()
 
     try {
         runtime.globals.set("input_content", cfg_input)
