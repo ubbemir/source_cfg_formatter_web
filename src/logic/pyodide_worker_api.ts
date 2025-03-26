@@ -1,10 +1,13 @@
 import PyodideWorker from "./worker/pyodide_worker.mjs?worker"
 
-// Code snippet from https://pyodide.org/en/stable/usage/webworker.html
-function getPromiseAndResolve() {
-    let resolve
-    const promise = new Promise((res) => {
-        resolve = res
+type FormatRequest = { cfg_input: string, prettify: boolean }
+type FormatResponse = { result: string, error: string }
+
+// Code snippet based from https://pyodide.org/en/stable/usage/webworker.html
+function promiseCreator<T>() {
+    let resolve!: (value: T | PromiseLike<T>) => void
+    const promise = new Promise<T>(inner_res => {
+        resolve = inner_res
     })
     return { promise, resolve }
 }
@@ -15,8 +18,8 @@ function getId() {
 }
 
 
-function requestResponse(worker, msg) {
-    const { promise, resolve } = getPromiseAndResolve()
+function requestResponse(worker: Worker, msg: FormatRequest) {
+    const { promise, resolve } = promiseCreator<FormatResponse>()
     const idWorker = getId()
     worker.addEventListener("message", function listener(event) {
         if (event.data?.id !== idWorker) {
@@ -34,7 +37,7 @@ function requestResponse(worker, msg) {
 
 const pyodideWorker = new PyodideWorker()
 
-export function asyncRunCfgFormatting(cfg_input, prettify) {
+export function asyncRunCfgFormatting(cfg_input: string, prettify: boolean) {
     return requestResponse(pyodideWorker, {
         cfg_input: cfg_input,
         prettify: prettify
