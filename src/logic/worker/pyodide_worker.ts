@@ -1,4 +1,4 @@
-import rt from "./runtime"
+import rt from "./runtime.mjs"
 
 
 self.onmessage = async (event) => {
@@ -16,6 +16,11 @@ self.onmessage = async (event) => {
 
         self.postMessage({ result, id })
     } catch (error) {
-        self.postMessage({ error: error.message, id })
+        let errorMessage = "Unknown error"
+        if (error instanceof Error) {
+            errorMessage = error.message
+        }
+
+        self.postMessage({ error: errorMessage, id })
     }
 }

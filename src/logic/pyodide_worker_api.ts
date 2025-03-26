@@ -1,4 +1,4 @@
-import PyodideWorker from "./worker/pyodide_worker.mjs?worker"
+import PyodideWorker from "./worker/pyodide_worker?worker"
 
 type FormatRequest = { cfg_input: string, prettify: boolean }
 type FormatResponse = { result: string, error: string }
