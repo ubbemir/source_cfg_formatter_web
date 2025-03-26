@@ -16,7 +16,7 @@ function App() {
       const { result, error } = await pyodide_worker_api.asyncRunCfgFormatting(inputCfg, shouldPrettify)
       if (result)
         setPyResult(result)
-      else
+      else if (error)
         console.log(error)
     }
 
